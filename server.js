@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
+import cgpaRoutes from "./routes/cgpa.js";
 
 dotenv.config();
 
@@ -10,7 +11,10 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL || "http://localhost:2810","http://localhost:2810"],
+    origin: [
+      process.env.FRONTEND_URL || "http://localhost:2810",
+      "http://localhost:2810",
+    ],
     credentials: true,
   })
 );
@@ -24,6 +28,7 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/cgpa", cgpaRoutes);
 
 app.get("/", (req, res) => {
   res.send("TrackEd backend running");

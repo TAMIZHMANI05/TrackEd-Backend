@@ -12,6 +12,20 @@ const userSchema = new mongoose.Schema({
   fullName: { type: String },
   studentId: { type: String },
   course: { type: String },
+  cgpaData: [
+    {
+      semester: { type: Number, required: true },
+      subjects: [
+        {
+          subject: { type: String, required: true },
+          credits: { type: Number, required: true },
+          grade: { type: String, required: true },
+        },
+      ],
+      sgpa: { type: Number, default: 0 }, // SGPA for this semester
+      cgpa: { type: Number, default: 0 }, // CGPA up to this semester
+    },
+  ],
 });
 
 export default mongoose.model("User", userSchema);
