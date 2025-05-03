@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
       cgpa: { type: Number, default: 0 }, // CGPA up to this semester
     },
   ],
+  currentCgpa: { type: Number, default: 0 }, // Current CGPA for the user
 });
 
 export default mongoose.model("User", userSchema);

@@ -35,9 +35,12 @@ function calculateCGPAUpTo(cgpaData, uptoIndex) {
 // Get CGPA data for authenticated user
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("cgpaData");
+    const user = await User.findById(req.user.id).select(
+      "cgpaData currentCgpa"
+    );
     const cgpaData = user?.cgpaData || [];
-    res.json({ cgpaData });
+    const currentCgpa = user?.currentCgpa ?? 0;
+    res.json({ cgpaData, currentCgpa });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch CGPA data" });
   }
@@ -51,17 +54,32 @@ router.put("/", authMiddleware, async (req, res) => {
       return res.status(400).json({ error: "Invalid CGPA data format" });
     }
     // Calculate SGPA and CGPA for each semester
+    let lastValidCgpa = null;
     const updatedCgpaData = cgpaData.map((sem, idx, arr) => {
-      const sgpa = calculateSGPA(sem.subjects);
-      const cgpa = calculateCGPAUpTo(arr, idx);
+      const hasSubjects =
+        Array.isArray(sem.subjects) && sem.subjects.length > 0;
+      let sgpa = null;
+      let cgpa = null;
+      if (hasSubjects) {
+        sgpa = calculateSGPA(sem.subjects);
+        cgpa = calculateCGPAUpTo(arr, idx);
+        lastValidCgpa = cgpa;
+      } else {
+        sgpa = null;
+        cgpa = null;
+      }
       return { ...sem, sgpa, cgpa };
     });
-    const user = await User.findByIdAndUpdate(
+    // Set currentCgpa to the last valid CGPA
+    await User.findByIdAndUpdate(
       req.user.id,
-      { cgpaData: updatedCgpaData },
-      { new: true, runValidators: true, select: "cgpaData" }
+      { cgpaData: updatedCgpaData, currentCgpa: lastValidCgpa ?? 0 },
+      { new: true, runValidators: true, select: "cgpaData currentCgpa" }
     );
-    res.json({ cgpaData: user.cgpaData });
+    const user = await User.findById(req.user.id).select(
+      "cgpaData currentCgpa"
+    );
+    res.json({ cgpaData: user.cgpaData, currentCgpa: user.currentCgpa });
   } catch (err) {
     res.status(500).json({ error: err });
   }
