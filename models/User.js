@@ -50,12 +50,6 @@ const userSchema = new mongoose.Schema({
             required: true,
           },
           dueDate: { type: Date, required: true },
-          priority: {
-            type: String,
-            enum: ["Low", "Medium", "High"],
-            default: "Medium",
-            required: true,
-          },
           notes: [{ type: String, required: true }],
         },
       ],
