@@ -27,6 +27,43 @@ const userSchema = new mongoose.Schema({
     },
   ],
   currentCgpa: { type: Number, default: 0 }, // Current CGPA for the user
+  projects: [
+    {
+      title: { type: String, required: true },
+      description: { type: String, required: true },
+      dueDate: { type: Date, required: true },
+      status: {
+        type: String,
+        enum: ["Active", "Completed", "On Hold"],
+        default: "Active",
+        required: true,
+      },
+      progress: { type: Number, default: 0 },
+      tasks: [
+        {
+          title: { type: String, required: true },
+          description: { type: String, required: true },
+          status: {
+            type: String,
+            enum: ["To Do", "In Progress", "Done"],
+            default: "To Do",
+            required: true,
+          },
+          dueDate: { type: Date, required: true },
+          priority: {
+            type: String,
+            enum: ["Low", "Medium", "High"],
+            default: "Medium",
+            required: true,
+          },
+          notes: [{ type: String, required: true }],
+        },
+      ],
+      notes: [{ type: String, required: true }],
+      createdAt: { type: Date, default: Date.now },
+      updatedAt: { type: Date, default: Date.now },
+    },
+  ],
 });
 
 export default mongoose.model("User", userSchema);

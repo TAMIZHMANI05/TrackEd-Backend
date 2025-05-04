@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import cgpaRoutes from "./routes/cgpa.js";
+import projectRoutes from "./routes/project.js";
+import geminiRoutes from "./routes/gemini.js";
 
 dotenv.config();
 
@@ -29,6 +31,8 @@ mongoose
 
 app.use("/api/auth", authRoutes);
 app.use("/api/cgpa", cgpaRoutes);
+app.use("/api/project", projectRoutes); // Assuming you have a projects route
+app.use("/api/gemini", geminiRoutes);
 
 app.get("/", (req, res) => {
   res.send("TrackEd backend running");
