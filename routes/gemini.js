@@ -14,7 +14,7 @@ router.post("/recommend-projects", authMiddleware, async (req, res) => {
           {
             parts: [
               {
-                text: `Suggest 3 academic project ideas with 3-5 tasks each for a college student. Context: ${context}. Respond in JSON: [{title, description, tasks:[{title, description}]}]`,
+                text: `Suggest 4 academic project ideas with 3-5 tasks each for a college student. Context: ${context}. Respond in JSON: [{title, description, tasks:[{title, description}]}]`,
               },
             ],
           },
