@@ -1,6 +1,6 @@
 # TrackEd - Your Academic Journey, Enhanced 🎓
 
-![TrackEd Logo](src/assets/images/TrackEd-Logo.svg)
+![TrackEd Logo](https://raw.githubusercontent.com/TAMIZHMANI05/TrackEd-Frontend/main/src/assets/images/TrackEd-Logo.svg)
 
 TrackEd is a comprehensive academic tracking and management platform designed to empower students in their educational journey. Built with modern web technologies and an elegant user interface, TrackEd brings together essential tools for academic success.
 
